@@ -1,0 +1,312 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+    url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model User {
+  id        String    @id @default(uuid()) @db.VarChar(250)
+  email     String    @unique @db.VarChar(250)
+  password  String @db.VarChar(250)
+  slug      String @unique @db.VarChar(200)
+  role      Role      @default(Customer)
+  googleId String   @db.VarChar(250)
+  profiles  Profile?
+  stores Store?
+  registerStores registerStore?
+  carts     Cart?
+  shipments Shipment?
+  wishlists Wishlist[]
+  transactions    Transaction[] @relation(name: "Seller")
+  transactionsCustomer   Transaction[]
+   notifications   Notification[] 
+   vouchers   Voucher[] 
+   reviews    Review[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+
+enum Role {
+  Admin
+  Seller
+  Customer
+}
+
+
+
+
+model Profile {
+  id        String    @id @default(uuid()) @db.VarChar(250)
+  firstName String @db.VarChar(250)
+  lastName  String @db.VarChar(250)
+  addresses Address?
+  phone     String? @db.VarChar(250)
+  userId    String    @unique @db.VarChar(250)
+  images    Gallery[]
+  users     User      @relation(fields: [userId], references: [id])
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+
+model Address {
+  id    String @id @default(uuid())
+  address String? @db.VarChar(250)
+  city String? @db.VarChar(150)
+  label String? @db.VarChar(250)
+  province String? @db.VarChar(250)
+  postalCode Int?
+  phone Int?
+  profileId String?  @unique @db.VarChar(150)
+  profiles Profile? @relation(fields: [profileId], references: [id])
+}
+
+model Product {
+  id            String       @id @default(uuid())
+  name          String @db.VarChar(250)
+  sku           String @db.VarChar(250)
+  price         Int
+  slug          String    @unique @db.VarChar(250)
+  description   String @db.VarChar(250)
+  totalStock    Int
+  categoryId    String @db.VarChar(250)
+  categories    Category      @relation(fields: [categoryId], references: [id])
+  storeId String? @db.VarChar(250)
+  stores Store? @relation(fields: [storeId],references: [id])
+  wishlistItems WishlistItem?
+  cartItems     CartItem?
+  discounts     Discount[]
+  images        Gallery[]
+  variants      Variant[]
+  transactionDetails TransactionDetail[]
+  reviews Review[]
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+}
+
+model Review {
+   id          String     @id @default(uuid())
+   comment     String     @db.VarChar(250)
+   rating      Int
+   customerId  String     @db.VarChar(250)
+   customers   User       @relation(fields: [customerId], references: [id])
+   productId   String     @db.VarChar(250)
+   products    Product    @relation(fields: [productId], references: [id])
+}
+model Variant {
+  id          String     @id @default(uuid())
+  type        String @db.VarChar(50)
+  value       String @db.VarChar(50)
+  priceAdjust Int
+  stock       Int
+  productId   String @db.VarChar(250)
+  products    Product   @relation(fields: [productId], references: [id])
+  cartItems   CartItem?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model Notification {
+    id          String   @id @default(uuid())
+  userId      String @db.VarChar(250)
+  users        User     @relation(fields: [userId], references: [id])
+  title       String @db.VarChar(250)
+  message     String @db.VarChar(250)
+  isRead      Boolean  @default(false)
+  createdAt   DateTime @default(now())
+}
+model Category {
+  id        String    @id @default(uuid())
+  products  Product[]
+  name      String    @unique @db.VarChar(250)
+  slug      String    @unique @db.VarChar(250)
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+
+
+model Voucher {
+    id        String    @id @default(uuid())
+    code      String    @db.VarChar(250)
+    usageLimit Int
+    discount    Discount[]
+    isActive  Boolean
+  userId      String @db.VarChar(250)
+  users        User     @relation(fields: [userId], references: [id])
+  transactions Transaction[]
+
+}
+
+model Discount {
+  id         String     @id @default(uuid())
+  name       String @db.VarChar(250)
+  percent    Int
+  startDate  DateTime
+  endDate    DateTime
+  products   Product[]
+  voucherId String  @db.VarChar(250)
+  vouchers Voucher @relation(fields: [voucherId], references: [id])
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+}
+
+model Gallery {
+  id        String    @id @default(uuid())
+  productId String? @db.VarChar(250)
+  profileId String? @db.VarChar(250)
+  storeId String? @db.VarChar(250)
+  registerStore registerStore?
+  products  Product?  @relation(fields: [productId], references: [id])
+  profiles  Profile? @relation(fields: [profileId], references: [id])
+  stores  Store? @relation(fields: [storeId], references: [id])
+  url       String @db.VarChar(250)
+  type      String @db.VarChar(70)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Wishlist {
+  id        String         @id @default(uuid())
+  userId    String         @unique @db.VarChar(250)
+  users     User           @relation(fields: [userId], references: [id])
+  items     WishlistItem[]
+  createdAt DateTime       @default(now())
+  updatedAt DateTime       @updatedAt
+}
+
+model WishlistItem {
+  id         String    @id @default(uuid())
+  wishlistId String @db.VarChar(250)
+  wishlists  Wishlist @relation(fields: [wishlistId], references: [id])
+  productId  String   @unique @db.VarChar(250)
+  products   Product  @relation(fields: [productId], references: [id])
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+model Cart {
+  id               String      @id @default(uuid())
+  userId           String     @unique @db.VarChar(250)
+  users            User       @relation(fields: [userId], references: [id])
+  items            CartItem[]
+  totalPriceCart Int
+}
+
+model CartItem {
+  id         String   @id @default(uuid())
+  cartId     String @db.VarChar(250)
+  carts      Cart    @relation(fields: [cartId], references: [id])
+  variantId  String  @unique @db.VarChar(250)
+  variants   Variant @relation(fields: [variantId], references: [id])
+  productId  String  @unique @db.VarChar(250)
+  products   Product @relation(fields: [productId], references: [id])
+  totalPrice Int
+  quantity   Int
+}
+
+model Store {
+    id            String       @id @default(uuid())
+  name          String @db.VarChar(250)
+     slug          String    @unique @db.VarChar(250)
+     status Status @default(Active)
+      userId    String    @unique @db.VarChar(250)
+     users     User      @relation(fields: [userId], references: [id])
+     products Product[]
+     images Gallery[]
+
+}
+
+enum Status {
+  Active
+  Inactive
+  Approve
+  Reject
+  Pending
+}
+
+model registerStore {
+    id            String       @id @default(uuid())
+     name          String @db.VarChar(250)
+     noKtp          String    @unique @db.VarChar(250)
+     status Status @default(Pending)
+      userId    String?   @unique @db.VarChar(250)
+     users     User?      @relation(fields: [userId], references: [id])
+     imagesKtpId String  @unique @db.VarChar(250)
+      images Gallery @relation(fields: [imagesKtpId], references: [id])
+}
+enum TransactionStatus {
+  PAID
+  PENDIND
+  REJECT
+}
+
+model Transaction {
+    id            String      @id @default(uuid())
+  status        TransactionStatus
+  noInvoice     String    @db.VarChar(250)
+  totalPrice    Int
+  paymentProof  Boolean
+  shippingCost  Int
+  customerId    String      @db.VarChar(250)
+  customers      User        @relation(fields: [customerId], references: [id])
+  sellerId    String?     @db.VarChar(250)
+  sellers      User?        @relation(name: "Seller",fields: [sellerId], references: [id])
+  voucherId   String      @db.VarChar(250)
+  vouchers    Voucher     @relation(fields: [voucherId], references: [id])
+  shipmentId  String       @db.VarChar(250)
+  shipments Shipment? @relation(fields: [shipmentId], references: [id])
+  transactionDetails TransactionDetail[]
+
+}
+
+model TransactionDetail {
+     id            String      @id @default(uuid())
+     transactionId String
+     transactions Transaction @relation(fields: [transactionId], references: [id])
+     productId String
+     products Product @relation(fields: [productId], references: [id])
+     qty Int
+     price Int
+
+}
+
+enum ShipmentStatus {
+  Sent
+  Packed
+  Arrived
+}
+enum ShipingMethod {
+Standard
+Express
+}
+model Shipment {
+  id            String      @id @default(uuid())
+  status        ShipmentStatus
+  shipingMethod ShipingMethod
+  trackingNumber String      @db.VarChar(250)
+  estimatedDelivery DateTime
+  actualDelivery  DateTime
+  volume          Float
+  shipingRateId String     @db.VarChar(250)
+  shipingRates ShippingRate? @relation(fields: [shipingRateId], references: [id])
+  userId String  @unique @db.VarChar(250)
+  users User @relation(fields: [userId], references: [id])
+  transaction     Transaction[]
+
+}
+model ShippingRate {
+  id         String         @id @default(uuid())
+  minVolume  Float       
+  maxVolume  Float       
+  price      Int      
+  shipments  Shipment[]  
+}
