@@ -20,7 +20,7 @@ CREATE TABLE "User" (
     "password" VARCHAR(250) NOT NULL,
     "slug" VARCHAR(200) NOT NULL,
     "role" "Role" NOT NULL DEFAULT 'Customer',
-    "googleId" VARCHAR(250) NOT NULL,
+    "googleId" VARCHAR(250),
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
@@ -124,6 +124,7 @@ CREATE TABLE "Voucher" (
     "id" TEXT NOT NULL,
     "code" VARCHAR(250) NOT NULL,
     "usageLimit" INTEGER NOT NULL,
+    "discountId" VARCHAR(250),
     "isActive" BOOLEAN NOT NULL,
     "userId" VARCHAR(250) NOT NULL,
 
@@ -137,7 +138,6 @@ CREATE TABLE "Discount" (
     "percent" INTEGER NOT NULL,
     "startDate" TIMESTAMP(3) NOT NULL,
     "endDate" TIMESTAMP(3) NOT NULL,
-    "voucherId" VARCHAR(250) NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
@@ -305,6 +305,9 @@ CREATE UNIQUE INDEX "Category_name_key" ON "Category"("name");
 CREATE UNIQUE INDEX "Category_slug_key" ON "Category"("slug");
 
 -- CreateIndex
+CREATE UNIQUE INDEX "Voucher_discountId_key" ON "Voucher"("discountId");
+
+-- CreateIndex
 CREATE UNIQUE INDEX "Wishlist_userId_key" ON "Wishlist"("userId");
 
 -- CreateIndex
@@ -365,10 +368,10 @@ ALTER TABLE "Variant" ADD CONSTRAINT "Variant_productId_fkey" FOREIGN KEY ("prod
 ALTER TABLE "Notification" ADD CONSTRAINT "Notification_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Voucher" ADD CONSTRAINT "Voucher_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Voucher" ADD CONSTRAINT "Voucher_discountId_fkey" FOREIGN KEY ("discountId") REFERENCES "Discount"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Discount" ADD CONSTRAINT "Discount_voucherId_fkey" FOREIGN KEY ("voucherId") REFERENCES "Voucher"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Voucher" ADD CONSTRAINT "Voucher_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Gallery" ADD CONSTRAINT "Gallery_productId_fkey" FOREIGN KEY ("productId") REFERENCES "Product"("id") ON DELETE SET NULL ON UPDATE CASCADE;

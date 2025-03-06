@@ -20,7 +20,7 @@ model User {
   password  String @db.VarChar(250)
   slug      String @unique @db.VarChar(200)
   role      Role      @default(Customer)
-  googleId String   @db.VarChar(250)
+  googleId String?   @db.VarChar(250)
   profiles  Profile?
   stores Store?
   registerStores registerStore?
@@ -138,7 +138,8 @@ model Voucher {
     id        String    @id @default(uuid())
     code      String    @db.VarChar(250)
     usageLimit Int
-    discount    Discount[]
+  discountId String? @unique @db.VarChar(250)
+  discounts Discount? @relation(fields: [discountId], references: [id])
     isActive  Boolean
   userId      String @db.VarChar(250)
   users        User     @relation(fields: [userId], references: [id])
@@ -153,8 +154,7 @@ model Discount {
   startDate  DateTime
   endDate    DateTime
   products   Product[]
-  voucherId String  @db.VarChar(250)
-  vouchers Voucher @relation(fields: [voucherId], references: [id])
+  vouchers Voucher?
   createdAt  DateTime  @default(now())
   updatedAt  DateTime  @updatedAt
 }
