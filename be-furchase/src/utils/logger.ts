@@ -9,22 +9,22 @@ if (!fs.existsSync(logDirectory)) {
 const logFormat = winston.format.combine(
   winston.format.timestamp(),
   winston.format.printf(({ level, message, timestamp }) => {
-    return `${timestamp} [${level.toLocaleUpperCase()}]: ${message}`;
+    return `${timestamp} [${level.toUpperCase()}]: ${message}`;
   })
 );
 
 class Logger {
   private logger: winston.Logger;
 
-  constructor(fileName: string) {
+  constructor(logFileName: string) {
     this.logger = winston.createLogger({
       level: "info",
       format: logFormat,
       transports: [
         new winston.transports.File({
-          filename: path.join(logDirectory, fileName),
-          maxFiles: 5 * 1024 * 1024,
-          maxsize: 3,
+          filename: path.join(logDirectory, logFileName),
+          maxsize: 5 * 1024 * 1024,
+          maxFiles: 3,
         }),
       ],
     });
@@ -33,9 +33,11 @@ class Logger {
   info(message: string) {
     this.logger.info(message);
   }
+
   warn(message: string) {
     this.logger.warn(message);
   }
+
   error(message: string) {
     this.logger.error(message);
   }
