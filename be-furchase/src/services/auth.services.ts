@@ -144,14 +144,14 @@ export class authServices {
         firstName: users.profiles?.firstName,
         lastName: users.profiles?.lastName,
         phone: users.profiles?.phone,
-        addresses: {
-          id: users.profiles?.addresses?.id,
-          address: users.profiles?.addresses?.address,
-          city: users.profiles?.addresses?.city,
-          postalCode: users.profiles?.addresses?.postalCode,
-          label: users.profiles?.addresses?.label,
-          province: users.profiles?.addresses?.province,
-        },
+        addresses: users.profiles?.addresses.map((address) => ({
+          id: address.id,
+          address: address.address,
+          city: address.city,
+          postalCode: address.postalCode,
+          label: address.label,
+          province: address.province,
+        })),
         images: users.profiles?.images.map((image) => ({
           id: image.id,
           url: image.url,

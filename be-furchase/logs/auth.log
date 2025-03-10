@@ -1,3 +1,15 @@
 2025-03-06T08:16:48.300Z [INFO]: Signup succsessfuly
 2025-03-06T10:47:05.409Z [INFO]: Signin succsessfully
 2025-03-06T10:47:35.065Z [INFO]: Get data user succsess alcatraz
+2025-03-06T15:35:08.844Z [WARN]: user not found, please register first
+2025-03-06T15:35:28.904Z [INFO]: Signup succsessfuly
+2025-03-06T15:36:05.516Z [INFO]: Signin succsessfully
+2025-03-06T15:36:25.450Z [INFO]: Get data user succsess alcatraz
+2025-03-08T16:48:00.687Z [INFO]: Signin succsessfully
+2025-03-09T09:36:30.956Z [INFO]: Signin succsessfully
+2025-03-09T10:00:37.865Z [WARN]: user not found, please login first
+2025-03-09T10:27:13.123Z [WARN]: user not found, please login first
+2025-03-09T10:27:24.175Z [INFO]: Signin succsessfully
+2025-03-09T10:27:28.877Z [INFO]: Signin succsessfully
+2025-03-09T10:29:25.562Z [INFO]: Signin succsessfully
+2025-03-10T07:36:18.005Z [INFO]: Signin succsessfully

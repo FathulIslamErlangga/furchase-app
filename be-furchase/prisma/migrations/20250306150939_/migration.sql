@@ -2,6 +2,9 @@
 CREATE TYPE "Role" AS ENUM ('Admin', 'Seller', 'Customer');
 
 -- CreateEnum
+CREATE TYPE "addressLabel" AS ENUM ('Home', 'Office');
+
+-- CreateEnum
 CREATE TYPE "Status" AS ENUM ('Active', 'Inactive', 'Approve', 'Reject', 'Pending');
 
 -- CreateEnum
@@ -45,10 +48,11 @@ CREATE TABLE "Address" (
     "id" TEXT NOT NULL,
     "address" VARCHAR(250),
     "city" VARCHAR(150),
-    "label" VARCHAR(250),
+    "label" "addressLabel",
     "province" VARCHAR(250),
     "postalCode" INTEGER,
     "phone" INTEGER,
+    "isDefault" BOOLEAN NOT NULL DEFAULT false,
     "profileId" VARCHAR(150),
 
     CONSTRAINT "Address_pkey" PRIMARY KEY ("id")

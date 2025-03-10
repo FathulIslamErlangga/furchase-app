@@ -4,6 +4,7 @@ import "dotenv/config";
 import { errorHandler, pageNotFound } from "./middlewares/error.middleware";
 import authRoutes from "./routes/auth.route";
 import Cors from "./middlewares/cors.middleware";
+import profileRoute from "./routes/profile.route";
 
 export class App {
   private app: Application;
@@ -20,7 +21,7 @@ export class App {
     this.app.use(express.urlencoded({ extended: true }));
   }
   routes() {
-    this.app.use("/api", authRoutes());
+    this.app.use("/api", authRoutes(), profileRoute());
   }
   errorHandle() {
     this.app.use(pageNotFound);

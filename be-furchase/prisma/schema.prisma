@@ -49,7 +49,7 @@ model Profile {
   id        String    @id @default(uuid()) @db.VarChar(250)
   firstName String @db.VarChar(250)
   lastName  String @db.VarChar(250)
-  addresses Address?
+  addresses Address[]
   phone     String? @db.VarChar(250)
   userId    String    @unique @db.VarChar(250)
   images    Gallery[]
@@ -58,14 +58,19 @@ model Profile {
   updatedAt DateTime  @updatedAt
 }
 
+enum addressLabel {
+  Home
+  Office
+}
 model Address {
   id    String @id @default(uuid())
   address String? @db.VarChar(250)
   city String? @db.VarChar(150)
-  label String? @db.VarChar(250)
+  label addressLabel?
   province String? @db.VarChar(250)
   postalCode Int?
   phone Int?
+  isDefault Boolean @default(false)
   profileId String?  @unique @db.VarChar(150)
   profiles Profile? @relation(fields: [profileId], references: [id])
 }
