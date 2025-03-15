@@ -8,6 +8,7 @@ const authRoutes = () => {
   router.post("/auth/v2", auth.login);
   router.get("/auth/v3", authProtected, auth.getData);
   router.get("/auth/v4", authProtected, auth.logout);
+  router.post("/auth/v5", auth.forgotPassword);
   return router;
 };
 export default authRoutes;

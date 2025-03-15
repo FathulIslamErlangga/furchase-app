@@ -5,7 +5,7 @@ import "dotenv/config";
 import { User } from ".prisma/client";
 import { Response } from "express";
 
-const signToken = (id: string) => {
+export const signToken = (id: string) => {
   if (!id) {
     authLogger.warn("userId is required to sing the token");
     throw new appError("userId is required to sing the token", 404);

@@ -1,9 +1,11 @@
 import { Request, Response } from "express";
 import asyncHandler from "../middlewares/async.middleware";
 import { authServices } from "../services/auth.services";
-import { appSuccsess } from "../utils/response";
+import { appError, appSuccsess } from "../utils/response";
 import { authLogger } from "../utils/logger";
-import { createToken } from "../utils/jwt";
+import { createToken, signToken } from "../utils/jwt";
+import prisma from "../utils/prisma";
+import { sendMailForgotPassword } from "../utils/mailer";
 
 export class Auth {
   private auths = new authServices();
@@ -30,5 +32,30 @@ export class Auth {
     this.auths.logoutService(res);
     authLogger.info(`Logout user succsess`);
     appSuccsess(201, "Logout user succsess", res);
+  });
+
+  forgotPassword = asyncHandler(async (req: Request, res: Response) => {
+    const { email } = req.body;
+    console.log(email);
+    const users = await prisma.user.findUnique({
+      where: { email },
+    });
+
+    if (email !== users?.email) {
+      authLogger.warn(`Email do not match ${email}`);
+      throw new appError("Email do not match", 403);
+    }
+
+    if (!users) {
+      authLogger.warn(`user not found ${email}`);
+      throw new appError("user not found", 404);
+    }
+    console.log("user email:", users.email);
+
+    const token = signToken(users.id);
+    sendMailForgotPassword(users.email, token);
+
+    authLogger.info("succsessfuly send to your email");
+    appSuccsess(201, "succsessfuly send to your email", res, undefined, token);
   });
 }

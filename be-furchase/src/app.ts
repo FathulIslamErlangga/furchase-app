@@ -5,6 +5,7 @@ import { errorHandler, pageNotFound } from "./middlewares/error.middleware";
 import authRoutes from "./routes/auth.route";
 import Cors from "./middlewares/cors.middleware";
 import profileRoute from "./routes/profile.route";
+import mailRoute from "./routes/mail.route";
 
 export class App {
   private app: Application;
@@ -21,7 +22,7 @@ export class App {
     this.app.use(express.urlencoded({ extended: true }));
   }
   routes() {
-    this.app.use("/api", authRoutes(), profileRoute());
+    this.app.use("/api", authRoutes(), profileRoute(), mailRoute());
   }
   errorHandle() {
     this.app.use(pageNotFound);

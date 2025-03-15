@@ -14,6 +14,7 @@ const profileRoute = () => {
     ]),
     profiles.updateProfile
   );
+  router.patch("/profiles/v2", authProtected, profiles.changePassword);
   return router;
 };
 export default profileRoute;

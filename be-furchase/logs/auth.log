@@ -13,3 +13,30 @@
 2025-03-09T10:27:28.877Z [INFO]: Signin succsessfully
 2025-03-09T10:29:25.562Z [INFO]: Signin succsessfully
 2025-03-10T07:36:18.005Z [INFO]: Signin succsessfully
+2025-03-10T07:41:18.043Z [INFO]: Signin succsessfully
+2025-03-10T07:43:27.488Z [INFO]: Signin succsessfully
+2025-03-12T06:03:24.657Z [INFO]: Signup succsessfuly
+2025-03-12T06:03:59.844Z [INFO]: Signin succsessfully
+2025-03-12T06:04:20.269Z [WARN]: Email do not match erlangga.fie@gmail.com
+2025-03-12T06:04:54.947Z [INFO]: Signin succsessfully
+2025-03-12T06:05:18.175Z [WARN]: Email do not match erlangga.fie@gmail.com
+2025-03-12T06:07:08.503Z [INFO]: Logout user succsess
+2025-03-12T06:07:24.823Z [WARN]: Email do not match erlangga.fie@gmail.com
+2025-03-12T06:10:29.443Z [WARN]: Email do not match erlangga.fie@gmail.com
+2025-03-12T06:13:25.412Z [INFO]: succsessfuly send to your email
+2025-03-12T07:06:36.127Z [INFO]: succsessfuly send to your email
+2025-03-12T07:23:02.407Z [WARN]: no authorized, no token provided
+2025-03-12T07:23:18.291Z [INFO]: Signin succsessfully
+2025-03-12T08:16:15.645Z [INFO]: Signin succsessfully
+2025-03-12T08:27:39.302Z [INFO]: Signin succsessfully
+2025-03-12T08:37:18.658Z [INFO]: Password successfully changed
+2025-03-12T08:38:17.968Z [INFO]: Signin succsessfully
+2025-03-12T08:38:21.985Z [INFO]: Signin succsessfully
+2025-03-12T08:38:40.162Z [INFO]: Logout user succsess
+2025-03-12T08:38:52.068Z [INFO]: Signin succsessfully
+2025-03-12T08:43:39.699Z [INFO]: Signin succsessfully
+2025-03-12T08:43:52.821Z [WARN]: invalid current password 
+2025-03-12T08:46:32.119Z [WARN]: invalid current password 
+2025-03-12T08:46:38.504Z [WARN]: invalid current password 
+2025-03-12T08:52:49.761Z [INFO]: Password successfully changed
+2025-03-12T08:54:06.670Z [INFO]: Signin succsessfully
