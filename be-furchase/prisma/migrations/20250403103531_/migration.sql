@@ -51,7 +51,6 @@ CREATE TABLE "Address" (
     "label" "addressLabel",
     "province" VARCHAR(250),
     "postalCode" INTEGER,
-    "phone" INTEGER,
     "isDefault" BOOLEAN NOT NULL DEFAULT false,
     "profileId" VARCHAR(150),
 
@@ -295,9 +294,6 @@ CREATE UNIQUE INDEX "User_slug_key" ON "User"("slug");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Profile_userId_key" ON "Profile"("userId");
-
--- CreateIndex
-CREATE UNIQUE INDEX "Address_profileId_key" ON "Address"("profileId");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Product_slug_key" ON "Product"("slug");

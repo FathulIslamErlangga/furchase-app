@@ -69,9 +69,8 @@ model Address {
   label addressLabel?
   province String? @db.VarChar(250)
   postalCode Int?
-  phone Int?
   isDefault Boolean @default(false)
-  profileId String?  @unique @db.VarChar(150)
+  profileId String?  @db.VarChar(150)
   profiles Profile? @relation(fields: [profileId], references: [id])
 }
 

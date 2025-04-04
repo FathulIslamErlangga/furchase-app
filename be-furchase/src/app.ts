@@ -6,6 +6,7 @@ import authRoutes from "./routes/auth.route";
 import Cors from "./middlewares/cors.middleware";
 import profileRoute from "./routes/profile.route";
 import mailRoute from "./routes/mail.route";
+import addressRoute from "./routes/address.route";
 
 export class App {
   private app: Application;
@@ -22,7 +23,13 @@ export class App {
     this.app.use(express.urlencoded({ extended: true }));
   }
   routes() {
-    this.app.use("/api", authRoutes(), profileRoute(), mailRoute());
+    this.app.use(
+      "/api",
+      authRoutes(),
+      profileRoute(),
+      mailRoute(),
+      addressRoute()
+    );
   }
   errorHandle() {
     this.app.use(pageNotFound);

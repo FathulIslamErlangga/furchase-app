@@ -44,3 +44,4 @@ class Logger {
 }
 
 export const authLogger = new Logger("auth.log");
+export const addressLogger = new Logger("address.log");
