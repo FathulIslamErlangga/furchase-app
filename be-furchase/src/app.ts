@@ -7,6 +7,7 @@ import Cors from "./middlewares/cors.middleware";
 import profileRoute from "./routes/profile.route";
 import mailRoute from "./routes/mail.route";
 import addressRoute from "./routes/address.route";
+import categoriesRoute from "./routes/categories.route";
 
 export class App {
   private app: Application;
@@ -28,7 +29,8 @@ export class App {
       authRoutes(),
       profileRoute(),
       mailRoute(),
-      addressRoute()
+      addressRoute(),
+      categoriesRoute()
     );
   }
   errorHandle() {
