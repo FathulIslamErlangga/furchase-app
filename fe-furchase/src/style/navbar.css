@@ -1,0 +1,24 @@
+@layer theme;
+@import "tailwindcss";
+
+@import "./theme.css" layer(theme);
+@layer components {
+  header.header-nav {
+    @apply bg-transparent w-full flex items-center z-10 py-2;
+  }
+  header.header-nav .navbar {
+    @apply flex w-full items-center;
+  }
+  header.header-nav .navbar h1.brand {
+    @apply font-pattaya text-4xl text-oranges-primary font-[300] tracking-wide;
+  }
+  header.header-nav .group-btn {
+    @apply flex justify-between space-x-7 px-28;
+  }
+  header.header-nav .group-btn .btn-signup {
+    @apply bg-oranges-primary   rounded-md  p-3;
+  }
+  header.header-nav .group-btn .btn-signin {
+    @apply border-2 border-oranges-primary  rounded-md py-3 px-5;
+  }
+}

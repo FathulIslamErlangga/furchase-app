@@ -1,0 +1,51 @@
+@import "tailwindcss";
+@import "../theme.css";
+@layer components {
+  .login-page {
+    @apply py-20;
+  }
+  .login-page .page-container {
+    @apply w-full h-full mx-auto flex;
+  }
+  .login-page .page-container .content-login {
+    @apply w-1/2 my-7 ml-32;
+  }
+  .login-page .page-container .content-login .form-input {
+    @apply pl-50;
+  }
+
+  .login-page .page-container .content-login .form-input form {
+    @apply pt-10 relative;
+  }
+  .login-page .page-container .content-login .form-input form img {
+    @apply absolute right-64 bottom-1;
+  }
+
+  .login-page .page-container .content-login .form-input form input {
+    @apply focus:outline-none border-b-[3px] border-oranges-primary block pt-4 w-[50%] h-full;
+  }
+  .login-page .page-container .content-login .form-input .btn-login {
+    @apply pt-5;
+  }
+  .login-page .page-container .content-login .form-input .btn-login button {
+    @apply bg-oranges-primary p-2 w-[50%] hover:border-2 rounded-md hover:bg-white tracking-wide text-lg font-[500] hover:border-oranges-primary border-2 border-oranges-primary cursor-pointer;
+  }
+  .login-page .page-container .content-login .form-input .or-connection {
+    @apply flex items-center w-[50%] pt-5;
+  }
+  .login-page .page-container .content-login .form-input .or-connection .line {
+    @apply flex-grow border-b border-gray-300;
+  }
+  .login-page .page-container .content-login .form-input .or-connection span {
+    @apply mx-4 text-gray-500;
+  }
+  .login-page .page-container .content-login .form-input .social-connect {
+    @apply mx-[4.5rem] mt-5 flex space-x-8 cursor-pointer;
+  }
+  .login-page .page-container .content-login .form-input .social-connect img {
+    @apply cursor-pointer;
+  }
+  .login-page .page-container .content-img {
+    @apply w-1/2;
+  }
+}

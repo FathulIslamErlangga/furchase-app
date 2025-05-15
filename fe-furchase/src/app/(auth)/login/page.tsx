@@ -1,0 +1,10 @@
+import LoginPage from "@/components/authPages/loginPage";
+import React from "react";
+
+type Props = {};
+
+const Login = () => {
+  return <LoginPage />;
+};
+
+export default Login;
