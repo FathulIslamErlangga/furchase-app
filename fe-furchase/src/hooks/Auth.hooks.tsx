@@ -1,8 +1,12 @@
 "use client";
-import { registerUser } from "@/services/auth.services";
+import { loginUser, registerUser } from "@/services/auth.services";
 import { authProps } from "@/utils/interfaces/contextInterface";
-import { RegisterData, UserResponse } from "@/utils/interfaces/customInterface";
-import { setCookie } from "cookies-next";
+import {
+  LoginData,
+  RegisterData,
+  UserResponse,
+} from "@/utils/interfaces/customInterface";
+import { getCookie, setCookie } from "cookies-next";
 import React, { useState } from "react";
 
 const authHooks = (): authProps => {
@@ -38,10 +42,30 @@ const authHooks = (): authProps => {
     }
   };
 
+  const login = async (data: LoginData) => {
+    try {
+      const response = await loginUser(data);
+      setUsers(response);
+      setMessage(response.message);
+      setCookie("jwt", response.token, {
+        secure:
+          process.env.NEXT_PUBLIC_NODE_ENV === "development" ? true : false,
+        expires: new Date(Date.now() + 10 * 24 * 60 * 60 * 1000),
+        path: "/",
+      });
+    } catch (error: any) {
+      if (error.response && error.response.data) {
+        setStatus(error.response.data.status);
+        setMessage(error.response.data.message);
+      }
+    }
+  };
+
   return {
     register,
     handleVisibility,
     clearAuthMessage,
+    login,
     message,
     user,
     status,

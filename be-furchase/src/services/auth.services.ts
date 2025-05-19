@@ -111,7 +111,7 @@ export class authServices {
     }
     const passwordCompare = await bcrypt.compare(password, users.password);
 
-    if (!users && !passwordCompare) {
+    if (!passwordCompare) {
       throw new appError("Invalid login, email or password incorrect", 401);
     }
 

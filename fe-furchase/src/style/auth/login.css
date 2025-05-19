@@ -14,14 +14,14 @@
     @apply pl-50;
   }
 
-  .login-page .page-container .content-login .form-input form {
+  .login-page .page-container .content-login .form-input div.form {
     @apply pt-10 relative;
   }
-  .login-page .page-container .content-login .form-input form img {
+  .login-page .page-container .content-login .form-input div.form img {
     @apply absolute right-64 bottom-1;
   }
 
-  .login-page .page-container .content-login .form-input form input {
+  .login-page .page-container .content-login .form-input div.form input {
     @apply focus:outline-none border-b-[3px] border-oranges-primary block pt-4 w-[50%] h-full;
   }
   .login-page .page-container .content-login .form-input .btn-login {
@@ -29,6 +29,12 @@
   }
   .login-page .page-container .content-login .form-input .btn-login button {
     @apply bg-oranges-primary p-2 w-[50%] hover:border-2 rounded-md hover:bg-white tracking-wide text-lg font-[500] hover:border-oranges-primary border-2 border-oranges-primary cursor-pointer;
+  }
+  .login-page .page-container .content-login .form-input .btn-loading {
+    @apply pt-5;
+  }
+  .login-page .page-container .content-login .form-input .btn-loading button {
+    @apply bg-white p-2 w-[50%] rounded-md tracking-wide text-lg font-[500] border-2 border-oranges-primary cursor-wait;
   }
   .login-page .page-container .content-login .form-input .or-connection {
     @apply flex items-center w-[50%] pt-5;
