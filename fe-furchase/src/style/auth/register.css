@@ -17,33 +17,39 @@
   .registers-page .page-container .content-register .first-form {
     @apply flex pb-10 mx-10 space-x-10;
   }
-  .registers-page .page-container .content-register .first-form form {
+  .registers-page .page-container .content-register .first-form .form-1 {
     @apply relative;
   }
-  .registers-page .page-container .content-register .first-form form img {
+  .registers-page .page-container .content-register .first-form .form-1 img {
     @apply absolute right-1 bottom-1;
   }
-  .registers-page .page-container .content-register .first-form input {
+  .registers-page .page-container .content-register .first-form .form-1 input {
     @apply focus:outline-none border-b-[3px] border-oranges-primary pt-4 block;
   }
   .registers-page .page-container .content-register .second-form {
     @apply flex  mx-10 space-x-10;
   }
 
-  .registers-page .page-container .content-register .second-form form {
+  .registers-page .page-container .content-register .second-form .form-2 {
     @apply relative;
   }
-  .registers-page .page-container .content-register .second-form form img {
+  .registers-page .page-container .content-register .second-form .form-2 img {
     @apply absolute right-1 bottom-1;
   }
-  .registers-page .page-container .content-register .second-form form input {
+  .registers-page .page-container .content-register .second-form .form-2 input {
     @apply focus:outline-none border-b-[3px] border-oranges-primary pt-4 block;
   }
   .registers-page .page-container .content-register .btn-register {
     @apply mx-52 mt-12 mb-8 max-w-[10rem] border-[3px] p-1 border-oranges-primary text-center text-lg font-[500] tracking-wide hover:bg-oranges-primary rounded-md cursor-pointer;
   }
+  .registers-page .page-container .content-register .btn-loading {
+    @apply mx-52 mt-12 mb-8 max-w-[10rem] border-[3px] p-1 border-oranges-primary bg-white text-center text-lg font-[500] tracking-wide rounded-md cursor-wait;
+  }
   .registers-page .page-container .content-register .btn-register button {
     @apply cursor-pointer;
+  }
+  .registers-page .page-container .content-register .btn-loading button {
+    @apply cursor-wait relative;
   }
   .registers-page .page-container .content-register span {
     @apply mx-44 mt-20;

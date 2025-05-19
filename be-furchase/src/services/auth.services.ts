@@ -28,6 +28,16 @@ export class authServices {
       count++;
     }
 
+    const existingUser = await prisma.user.findUnique({
+      where: { email },
+    });
+
+    if (existingUser) {
+      throw new appError(
+        "Email is already in use. Please use a different email.",
+        403
+      );
+    }
     const newUser = await prisma.user.create({
       data: {
         email,

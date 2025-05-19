@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
+import { GlobalContexts } from "@/components/contexts/GlobalContexts";
+import { ToastContainer } from "react-toastify";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -16,8 +18,23 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="root">
-        <Navbar />
-        {children}
+        <GlobalContexts>
+          <>
+            <Navbar />
+            {children}
+          </>
+        </GlobalContexts>
+        <ToastContainer
+          position="top-center"
+          autoClose={3000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+        />
       </body>
     </html>
   );
