@@ -15,3 +15,12 @@ export const loginSchema = Yup.object({
     .min(6, "Password must be at least 6 characters")
     .required("Password is required"),
 });
+
+export const forgotSchema = Yup.object({
+  newPassword: Yup.string()
+    .min(6, "Password must be at least 6 characters")
+    .required("Password is required"),
+  confirmPassword: Yup.string()
+    .min(6, "Password must be at least 6 characters")
+    .required("Confirm Password is required"),
+});

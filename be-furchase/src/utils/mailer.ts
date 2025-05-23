@@ -12,7 +12,7 @@ export const sendMailForgotPassword = async (email: string, token: string) => {
     },
   });
 
-  const verifications = `${process.env.PATH_URL}/api/forgot-password?token=${token}`;
+  const verifications = `${process.env.PATH_URL}/forgot-password?token=${token}`;
 
   const mailOpstion = {
     from: process.env.EMAIL_USER,

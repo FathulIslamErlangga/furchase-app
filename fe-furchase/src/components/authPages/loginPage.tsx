@@ -4,16 +4,19 @@ import React, { useEffect, useState } from "react";
 import "@/style/auth/login.css";
 import Link from "next/link";
 import { ErrorMessage, Field, Form, Formik } from "formik";
-import { LoginData } from "@/utils/interfaces/customInterface";
+import { LoginData, SendMail } from "@/utils/interfaces/customInterface";
 import { loginSchema } from "@/validation/auth.validation";
 import { useGlobal } from "../contexts/GlobalContexts";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
+import ModalForgotPassword from "../modals/forgotPassword.modal";
+import { setCookie } from "cookies-next";
 type Props = {};
 
 const LoginPage = () => {
   const { auth } = useGlobal();
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isOpen, setOpen] = useState<boolean>(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -63,8 +66,25 @@ const LoginPage = () => {
       setIsLoading(false);
     }
   };
+
+  const handleSendMail = async (values: SendMail) => {
+    try {
+      await auth.sendMail(values);
+      setCookie("forgot_email", values, {
+        path: "/",
+        expires: new Date(Date.now() + 30 * 60 * 1000),
+      });
+    } catch (error) {
+      console.log("send mail", error);
+    } finally {
+      setOpen(false);
+    }
+  };
+  const handleModal = () => setOpen((prev) => !prev);
+  const handleGoogleLogin = () =>
+    (window.location.href = `${process.env.NEXT_PUBLIC_API}/auth/google/v6`);
   return (
-    <section className="login-page">
+    <>
       <div className="page-container">
         <div className="content-login">
           <Formik
@@ -115,13 +135,14 @@ const LoginPage = () => {
                   />
                 </div>
 
-                <div className="pt-10">
-                  <Link
-                    href="#"
+                <div className="pt-5">
+                  <button
+                    type="button"
+                    onClick={handleModal}
                     className="pl-32 underline mt-10 text-[15px] hover:text-oranges-primary "
                   >
                     Forgot Password
-                  </Link>
+                  </button>
                 </div>
 
                 <div className={`${isLoading ? "btn-loading" : "btn-login"}`}>
@@ -148,7 +169,7 @@ const LoginPage = () => {
                   <div className="line" />
                 </div>
                 <div className="social-connect">
-                  <button>
+                  <button type="button" onClick={handleGoogleLogin}>
                     <Image
                       src="/assets/images/google.png"
                       alt=""
@@ -178,7 +199,13 @@ const LoginPage = () => {
           />
         </div>
       </div>
-    </section>
+      {isOpen && (
+        <ModalForgotPassword
+          modalClose={handleModal}
+          sendEmail={handleSendMail}
+        />
+      )}
+    </>
   );
 };
 

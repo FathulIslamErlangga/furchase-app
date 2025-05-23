@@ -20,7 +20,7 @@ model User {
   password  String @db.VarChar(250)
   slug      String @unique @db.VarChar(200)
   role      Role      @default(Customer)
-  googleId String?   @db.VarChar(250)
+  googleId String?  @unique @db.VarChar(250)
   profiles  Profile?
   stores Store?
   registerStores registerStore?

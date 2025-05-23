@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import "./globals.css";
+import "@/app/globals.css";
 import Navbar from "@/components/Navbar";
 import { GlobalContexts } from "@/components/contexts/GlobalContexts";
 import { ToastContainer } from "react-toastify";
@@ -17,6 +17,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="root">
+        <Navbar />
         <GlobalContexts>{children}</GlobalContexts>
         <ToastContainer
           position="top-center"

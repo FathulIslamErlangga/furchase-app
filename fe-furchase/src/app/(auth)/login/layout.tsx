@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import "./globals.css";
+import "@/app/globals.css";
 import Navbar from "@/components/Navbar";
 import { GlobalContexts } from "@/components/contexts/GlobalContexts";
 import { ToastContainer } from "react-toastify";
@@ -15,8 +15,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className="root">
+    <>
+      <Navbar />
+      <section className="login-page relative">
         <GlobalContexts>{children}</GlobalContexts>
         <ToastContainer
           position="top-center"
@@ -29,7 +30,7 @@ export default function RootLayout({
           draggable
           pauseOnHover
         />
-      </body>
-    </html>
+      </section>
+    </>
   );
 }

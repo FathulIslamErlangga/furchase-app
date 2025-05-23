@@ -3,9 +3,11 @@ import asyncHandler from "../middlewares/async.middleware";
 import { authServices } from "../services/auth.services";
 import { appError, appSuccsess } from "../utils/response";
 import { authLogger } from "../utils/logger";
-import { createToken, signToken } from "../utils/jwt";
+import { createToken, createTokenGoogle, signToken } from "../utils/jwt";
 import prisma from "../utils/prisma";
 import { sendMailForgotPassword } from "../utils/mailer";
+import { IRequest } from "../utils/interface";
+import "dotenv/config";
 
 export class Auth {
   private auths = new authServices();
@@ -57,5 +59,13 @@ export class Auth {
 
     authLogger.info("succsessfuly send to your email");
     appSuccsess(201, "succsessfuly send to your email", res, undefined, token);
+  });
+
+  googleCallback = asyncHandler(async (req: Request, res: Response) => {
+    const request = req as IRequest;
+    const user = request.user;
+    const token = createTokenGoogle(user);
+    const redirectUrl = `${process.env.PATH_URL}/callback?token=${token}`;
+    return res.redirect(redirectUrl);
   });
 }

@@ -8,7 +8,9 @@ import profileRoute from "./routes/profile.route";
 import mailRoute from "./routes/mail.route";
 import addressRoute from "./routes/address.route";
 import categoriesRoute from "./routes/categories.route";
-
+import session from "express-session";
+import passport from "passport";
+import "./utils/passport";
 export class App {
   private app: Application;
   constructor() {
@@ -19,6 +21,11 @@ export class App {
   }
   configure() {
     this.app.use(Cors);
+    this.app.use(
+      session({ secret: "secret", resave: false, saveUninitialized: false })
+    );
+    this.app.use(passport.initialize());
+    this.app.use(passport.session());
     this.app.use(express.json());
     this.app.use(cookieParser());
     this.app.use(express.urlencoded({ extended: true }));
