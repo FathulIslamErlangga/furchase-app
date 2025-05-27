@@ -4,6 +4,7 @@ import {
   RegisterData,
   UserResponse,
 } from "@/utils/interfaces/customInterface";
+import { CookieValueTypes } from "cookies-next";
 
 export const registerUser = async (data: RegisterData) => {
   try {
@@ -20,6 +21,26 @@ export const registerUser = async (data: RegisterData) => {
 export const loginUser = async (data: LoginData) => {
   try {
     const response = await api.post<UserResponse>("/auth/v2", data);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const getDataUser = async (token: CookieValueTypes) => {
+  try {
+    const response = await api.get<UserResponse>("/auth/v3", {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const logoutUser = async () => {
+  try {
+    const response = await api.get<UserResponse>("/auth/v4");
     return response.data;
   } catch (error) {
     throw error;

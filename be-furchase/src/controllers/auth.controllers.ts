@@ -61,11 +61,42 @@ export class Auth {
     appSuccsess(201, "succsessfuly send to your email", res, undefined, token);
   });
 
-  googleCallback = asyncHandler(async (req: Request, res: Response) => {
-    const request = req as IRequest;
-    const user = request.user;
-    const token = createTokenGoogle(user);
-    const redirectUrl = `${process.env.PATH_URL}/callback?token=${token}`;
-    return res.redirect(redirectUrl);
+  googleCallback = async (req: Request, res: Response) => {
+    try {
+      const request = req as IRequest;
+      const user = request.user;
+      const info = req.authInfo as { message?: string } | undefined;
+
+      if (!user) {
+        return res.redirect(
+          `${process.env.PATH_URL}/login?error=${encodeURIComponent(
+            "Email is already in use. Please use a different email."
+          )}`
+        );
+      }
+      const token = createTokenGoogle(user);
+      const redirectUrl = `${process.env.PATH_URL}/callback?token=${token}`;
+      return res.redirect(redirectUrl);
+    } catch (error: any) {
+      return res.redirect(
+        `${process.env.PATH_URL}/login?error=${encodeURIComponent(
+          error.message
+        )}`
+      );
+    }
+  };
+  facebookCallback = asyncHandler(async (req: Request, res: Response) => {
+    try {
+      const request = req as IRequest;
+      const user = request.user;
+      const token = createTokenGoogle(user);
+      const redirectUrl = `${process.env.PATH_URL}/callback?token=${token}`;
+      return res.redirect(redirectUrl);
+    } catch (error: any) {
+      const redirectUrl = `${
+        process.env.PATH_URL
+      }/login?error=${encodeURIComponent(error.message)}`;
+      return res.redirect(redirectUrl);
+    }
   });
 }

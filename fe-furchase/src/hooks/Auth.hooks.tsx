@@ -1,5 +1,10 @@
 "use client";
-import { loginUser, registerUser } from "@/services/auth.services";
+import {
+  getDataUser,
+  loginUser,
+  logoutUser,
+  registerUser,
+} from "@/services/auth.services";
 import { changePassword, mailForgotPassword } from "@/services/mail.services";
 import { authProps } from "@/utils/interfaces/contextInterface";
 import {
@@ -9,14 +14,21 @@ import {
   SendMail,
   UserResponse,
 } from "@/utils/interfaces/customInterface";
-import { getCookie, setCookie } from "cookies-next";
-import React, { useState } from "react";
+import { deleteCookie, getCookie, setCookie } from "cookies-next";
+import React, { useEffect, useState } from "react";
 
 const authHooks = (): authProps => {
   const [user, setUsers] = useState<UserResponse>();
   const [message, setMessage] = useState<string | undefined>("");
   const [isVisibility, setIsVisibility] = useState(false);
   const [status, setStatus] = useState<string | undefined>("");
+
+  useEffect(() => {
+    const token = getCookie("jwt");
+    if (token) {
+      getUsers(token as string);
+    }
+  }, []);
 
   const handleVisibility = () => {
     setIsVisibility((prev) => !prev);
@@ -31,12 +43,6 @@ const authHooks = (): authProps => {
       const response = await registerUser(data);
       setUsers(response);
       setMessage(response?.message);
-      setCookie("jwt", response?.token, {
-        secure:
-          process.env.NEXT_PUBLIC_NODE_ENV === "development" ? true : false,
-        expires: new Date(Date.now() + 10 * 24 * 60 * 60 * 1000),
-        path: "/",
-      });
     } catch (error: any) {
       if (error.response && error.response.data) {
         setStatus(error.response.data.status);
@@ -58,6 +64,32 @@ const authHooks = (): authProps => {
       });
     } catch (error: any) {
       if (error.response && error.response.data) {
+        setStatus(error.response.data.status);
+        setMessage(error.response.data.message);
+      }
+    }
+  };
+
+  const getUsers = async (token: string) => {
+    try {
+      const response = await getDataUser(token);
+      setUsers(response);
+    } catch (error: any) {
+      if (error.reaponse && error.response.data) {
+        setStatus(error.response.data.status);
+        setMessage(error.response.data.message);
+      }
+    }
+  };
+
+  const logout = async () => {
+    try {
+      const response = await logoutUser();
+      deleteCookie("jwt");
+      setMessage(response.message);
+      setUsers(undefined);
+    } catch (error: any) {
+      if (error.reaponse && error.response.data) {
         setStatus(error.response.data.status);
         setMessage(error.response.data.message);
       }
@@ -100,6 +132,7 @@ const authHooks = (): authProps => {
     login,
     sendMail,
     forgot,
+    logout,
     message,
     user,
     status,

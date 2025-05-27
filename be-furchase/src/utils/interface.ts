@@ -20,6 +20,7 @@ export interface PayloadToken {
 
 export interface IRequest extends Request {
   users: IUser;
+  info: { message: string };
   user: User;
   file: Express.Multer.File;
   files: { [fieldname: string]: Express.Multer.File[] };

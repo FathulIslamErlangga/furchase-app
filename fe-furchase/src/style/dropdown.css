@@ -1,0 +1,27 @@
+@layer theme;
+@import "tailwindcss";
+
+@import "./theme.css" layer(theme);
+
+@layer components {
+  div.profile-dropdown {
+    @apply absolute bg-white shadow-xl rounded-md right-0 top-20 mx-10 px-5 max-w-[10%] w-full;
+  }
+  div.profile-dropdown .dropdown {
+    @apply mx-auto py-5;
+  }
+  div.profile-dropdown .dropdown h1 {
+    @apply text-sm font-semibold text-center tracking-wide;
+  }
+  div.profile-dropdown .dropdown .line {
+    @apply border-b-2 border-oranges-primary my-4;
+  }
+
+  div.profile-dropdown .dropdown .items-dropdown li {
+    @apply hover:text-oranges-primary pt-1 tracking-wide;
+  }
+
+  div.profile-dropdown .dropdown .items-dropdown li a {
+    @apply cursor-pointer;
+  }
+}

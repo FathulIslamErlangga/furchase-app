@@ -9,6 +9,10 @@ const nextConfig: NextConfig = {
         port: "4000",
         pathname: "/public/uploads/**",
       },
+      {
+        protocol: "https",
+        hostname: "lh3.googleusercontent.com",
+      },
     ],
     domains: ["res.cloudinary.com"],
   },

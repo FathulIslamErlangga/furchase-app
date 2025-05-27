@@ -6,6 +6,7 @@ import { Role } from ".prisma/client";
 import { authLogger } from "../utils/logger";
 import { appError } from "../utils/response";
 import { IRequest } from "../utils/interface";
+import "dotenv/config";
 export class authServices {
   async registerService(req: Request) {
     const { email, password, firstName, lastName } = req.body;
@@ -13,6 +14,7 @@ export class authServices {
     const hashPassword = await bcrypt.hash(password, 10);
     const countUser = await prisma.user.count();
     const isRole = countUser === 0 ? Role.Admin : Role.Customer;
+    const defaultProfile = process.env.PROFILE_DEFAULT!;
     const slugData = slugify(`${firstName} ${lastName}`, {
       strict: true,
       lower: true,
@@ -48,6 +50,12 @@ export class authServices {
           create: {
             firstName,
             lastName,
+            images: {
+              create: {
+                type: "coverProfile",
+                url: defaultProfile,
+              },
+            },
           },
         },
         vouchers: {
@@ -72,6 +80,7 @@ export class authServices {
         id: true,
         email: true,
         googleId: true,
+        facebookId: true,
         slug: true,
         role: true,
         createdAt: true,

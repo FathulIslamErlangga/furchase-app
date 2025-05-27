@@ -2,6 +2,10 @@ import express from "express";
 import { Auth } from "../controllers/auth.controllers";
 import { authProtected } from "../middlewares/auth.middleware";
 import passport from "passport";
+import {
+  authFacebook,
+  authGoogle,
+} from "../middlewares/socialMedia.middleware";
 const authRoutes = () => {
   const router = express.Router();
   const auth = new Auth();
@@ -14,14 +18,14 @@ const authRoutes = () => {
     "/auth/google/v6",
     passport.authenticate("google", { scope: ["profile", "email"] })
   );
+  router.get("/auth/google/callback", authGoogle, auth.googleCallback);
+
   router.get(
-    "/auth/google/callback",
-    passport.authenticate("google", {
-      session: false,
-      failureRedirect: "/login",
-    }),
-    auth.googleCallback
+    "/auth/facebook/v7",
+    passport.authenticate("facebook", { scope: ["email"] })
   );
+
+  router.get("/auth/facebook/callback", authFacebook, auth.facebookCallback);
   return router;
 };
 export default authRoutes;

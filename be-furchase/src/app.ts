@@ -11,6 +11,8 @@ import categoriesRoute from "./routes/categories.route";
 import session from "express-session";
 import passport from "passport";
 import "./utils/passport";
+import "./utils/facebook";
+import path from "path";
 export class App {
   private app: Application;
   constructor() {
@@ -29,6 +31,7 @@ export class App {
     this.app.use(express.json());
     this.app.use(cookieParser());
     this.app.use(express.urlencoded({ extended: true }));
+    this.app.use("/public", express.static(path.join(__dirname, "../public")));
   }
   routes() {
     this.app.use(

@@ -1,59 +1,57 @@
 import passport from "passport";
-import { Strategy as GoogleStrategy } from "passport-google-oauth20";
+import { Strategy as facebookStrategy } from "passport-facebook";
 import prisma from "./prisma";
 import slugify from "slugify/slugify";
 import bcrypt from "bcrypt";
 import "dotenv/config";
 passport.use(
-  new GoogleStrategy(
+  new facebookStrategy(
     {
-      clientID: process.env.GOOGLE_CLIENT_ID!,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
-      callbackURL: process.env.GOOGLE_CALLBACK_URL,
+      clientID: process.env.FACEBOOK_CLIENT_ID!,
+      clientSecret: process.env.FACEBOOK_CLIENT_SECRET!,
+      callbackURL: process.env.FACEBOOK_CALLBACK_URL!,
+      profileFields: ["id", "emails", "name", "picture.type(large)"],
       passReqToCallback: true,
     },
     async (req, accessToken, refreshToken, profile, done) => {
       try {
-        const existingUserGoogle = await prisma.user.findUnique({
-          where: { googleId: profile.id },
+        const existingUser = await prisma.user.findUnique({
+          where: { facebookId: profile.id },
         });
-        if (existingUserGoogle) return done(null, existingUserGoogle);
-
         const existingEmail = await prisma.user.findUnique({
           where: { email: profile.emails?.[0].value },
         });
-
-        if (existingEmail) {
-          return done(null, false, { message: "Email already in use" });
-        }
+        if (existingUser) return done(null, existingUser);
         const slugData = await slugify(
           `${profile.name?.givenName}-${profile.name?.familyName}`,
-          {
-            strict: true,
-            lower: true,
-          }
+          { lower: true, strict: true }
         );
+
+        if (existingEmail)
+          return done(null, false, { message: "Email already in use" });
         let slug = slugData;
         let count = 1;
         while (await prisma.user.findUnique({ where: { slug } })) {
           slug = `${slugData}-${count}`;
           count++;
         }
-        const password = await bcrypt.hash("coklat", 10);
+
+        const password = await bcrypt.hash("conklat", 10);
         const voucherGenerator = `DISC-${Math.random()
           .toString(36)
           .substring(2, 8)
           .toLocaleUpperCase()}`;
+
         const user = await prisma.user.create({
           data: {
             email: profile.emails?.[0].value || "",
-            googleId: profile.id,
-            slug,
             password,
+            slug,
+            facebookId: profile.id,
             profiles: {
               create: {
-                firstName: profile.name?.givenName || "user",
-                lastName: profile.name?.familyName || "1",
+                firstName: profile.name?.givenName || "",
+                lastName: profile.name?.familyName || "",
                 images: {
                   create: {
                     type: "coverProfile",
@@ -64,17 +62,17 @@ passport.use(
             },
             vouchers: {
               create: {
+                isActive: false,
                 code: voucherGenerator,
                 usageLimit: 1,
-                isActive: false,
                 discounts: {
                   create: {
-                    percent: 10,
-                    name: "Voucher Discount",
                     startDate: new Date(),
                     endDate: new Date(
                       new Date().setMonth(new Date().getMonth() + 1)
                     ),
+                    name: "Voucher Discount",
+                    percent: 10,
                   },
                 },
               },
@@ -84,7 +82,7 @@ passport.use(
 
         return done(null, user);
       } catch (error) {
-        return done(error as Error);
+        return done(error);
       }
     }
   )

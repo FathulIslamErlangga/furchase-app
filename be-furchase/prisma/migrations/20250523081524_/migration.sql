@@ -24,6 +24,7 @@ CREATE TABLE "User" (
     "slug" VARCHAR(200) NOT NULL,
     "role" "Role" NOT NULL DEFAULT 'Customer',
     "googleId" VARCHAR(250),
+    "facebookId" VARCHAR(250),
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
@@ -294,6 +295,9 @@ CREATE UNIQUE INDEX "User_slug_key" ON "User"("slug");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "User_googleId_key" ON "User"("googleId");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "User_facebookId_key" ON "User"("facebookId");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Profile_userId_key" ON "Profile"("userId");

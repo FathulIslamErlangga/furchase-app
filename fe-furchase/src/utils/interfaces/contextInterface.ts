@@ -15,6 +15,7 @@ export interface authProps {
   forgot: (data: ChangePasswrod) => Promise<void>;
   handleVisibility: () => void;
   clearAuthMessage: () => void;
+  logout: () => void;
   isVisibility: boolean;
   status: string | undefined;
 }

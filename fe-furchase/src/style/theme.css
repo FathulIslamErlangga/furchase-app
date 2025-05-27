@@ -1,5 +1,6 @@
 @theme {
   --font-pattaya: var(--font-pattaya);
+  --font-roboto_slab: var(--font-roboto_slab);
   --color-oranges-primary: #ff9b17;
   --color-yellow-cs: #fff085;
 }

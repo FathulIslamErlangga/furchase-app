@@ -8,12 +8,31 @@ import { RegisterData } from "@/utils/interfaces/customInterface";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import { useGlobal } from "../contexts/GlobalContexts";
 import { registerSchema } from "@/validation/auth.validation";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { toast } from "react-toastify";
 const RegisterPage = () => {
   const { auth } = useGlobal();
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
+  const searchParams = useSearchParams();
+  const error = searchParams.get("error");
+  useEffect(() => {
+    if (error) {
+      setTimeout(() => {
+        toast.error(decodeURIComponent(error), {
+          position: "top-center",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        });
+
+        router.replace("/register");
+      }, 1500);
+    }
+  }, [error]);
+
   useEffect(() => {
     if (auth.message) {
       if (auth.status) {
@@ -63,8 +82,12 @@ const RegisterPage = () => {
       setIsLoading(false);
     }
   };
+  const handleGoogleLogin = () =>
+    (window.location.href = `${process.env.NEXT_PUBLIC_API}/auth/google/v6`);
+  const handleFacebookLogin = () =>
+    (window.location.href = `${process.env.NEXT_PUBLIC_API}/auth/facebook/v7`);
   return (
-    <section className=" registers-page">
+    <>
       <div className=" page-container">
         <div className=" content-register">
           <Formik
@@ -193,7 +216,7 @@ const RegisterPage = () => {
             <div className="line" />
           </div>
           <div className="social-connect">
-            <button>
+            <button type="submit" onClick={handleGoogleLogin}>
               <Image
                 src="/assets/images/google.png"
                 alt=""
@@ -201,7 +224,7 @@ const RegisterPage = () => {
                 width={30}
               />
             </button>
-            <button>
+            <button type="submit" onClick={handleFacebookLogin}>
               <Image
                 src="/assets/images/facebook.png"
                 alt=""
@@ -220,7 +243,7 @@ const RegisterPage = () => {
           />
         </div>
       </div>
-    </section>
+    </>
   );
 };
 

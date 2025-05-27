@@ -3,6 +3,7 @@ import "./globals.css";
 import Navbar from "@/components/Navbar";
 import { GlobalContexts } from "@/components/contexts/GlobalContexts";
 import { ToastContainer } from "react-toastify";
+import { pattaya, roboto_slab } from "@/utils/fonts/font";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -16,7 +17,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="root">
+      <body className={`root ${roboto_slab.variable} ${pattaya.variable}`}>
         <GlobalContexts>{children}</GlobalContexts>
         <ToastContainer
           position="top-center"

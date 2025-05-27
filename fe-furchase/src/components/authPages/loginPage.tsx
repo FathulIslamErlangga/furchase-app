@@ -7,7 +7,7 @@ import { ErrorMessage, Field, Form, Formik } from "formik";
 import { LoginData, SendMail } from "@/utils/interfaces/customInterface";
 import { loginSchema } from "@/validation/auth.validation";
 import { useGlobal } from "../contexts/GlobalContexts";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { toast } from "react-toastify";
 import ModalForgotPassword from "../modals/forgotPassword.modal";
 import { setCookie } from "cookies-next";
@@ -16,8 +16,27 @@ type Props = {};
 const LoginPage = () => {
   const { auth } = useGlobal();
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isMessage, setIsMessage] = useState("");
   const [isOpen, setOpen] = useState<boolean>(false);
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const error = searchParams.get("error");
+
+  useEffect(() => {
+    if (error) {
+      setTimeout(() => {
+        toast.error(decodeURIComponent(error), {
+          position: "top-center",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        });
+        router.replace("/login");
+      }, 1500);
+    }
+  }, [error]);
 
   useEffect(() => {
     if (auth.message) {
@@ -45,12 +64,6 @@ const LoginPage = () => {
     }
   }, [auth.message]);
 
-  useEffect(() => {
-    if (auth.user && auth.user.data) {
-      setTimeout(() => router.push("/"), 1500);
-    }
-  }, [auth.user, router]);
-
   const initialValues: LoginData = {
     email: "",
     password: "",
@@ -60,6 +73,7 @@ const LoginPage = () => {
     try {
       setIsLoading(true);
       await auth.login(values);
+      setTimeout(() => router.push("/"), 1500);
     } catch (error) {
       console.log("login error", error);
     } finally {
@@ -83,6 +97,8 @@ const LoginPage = () => {
   const handleModal = () => setOpen((prev) => !prev);
   const handleGoogleLogin = () =>
     (window.location.href = `${process.env.NEXT_PUBLIC_API}/auth/google/v6`);
+  const handleFacebookLogin = () =>
+    (window.location.href = `${process.env.NEXT_PUBLIC_API}/auth/facebook/v7`);
   return (
     <>
       <div className="page-container">
@@ -177,7 +193,7 @@ const LoginPage = () => {
                       width={30}
                     />
                   </button>
-                  <button>
+                  <button type="button" onClick={handleFacebookLogin}>
                     <Image
                       src="/assets/images/facebook.png"
                       alt=""
