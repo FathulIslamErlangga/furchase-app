@@ -12,12 +12,12 @@ const NavbarAuth = (props: Props) => {
       {!props.user && (
         <div className="group-btn ">
           <div className="btn-signup ">
-            <Link href="#" className="text-sm font-[400]  text-black  ">
+            <Link href="/register" className="text-sm font-[400]  text-black  ">
               Register
             </Link>
           </div>
           <div className="btn-signin ">
-            <Link href="#" className="text-sm font-[400]   text-black  ">
+            <Link href="/login" className="text-sm font-[400]   text-black  ">
               Login
             </Link>
           </div>

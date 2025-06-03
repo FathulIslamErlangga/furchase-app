@@ -133,6 +133,7 @@ const authHooks = (): authProps => {
     sendMail,
     forgot,
     logout,
+    getUsers,
     message,
     user,
     status,

@@ -7,12 +7,13 @@ export interface IUser {
   role: Role;
   email: string;
 }
-export interface IUserGoogle {
+export interface IUserSocial {
   id: string;
   slug: string;
   role: Role;
   email: string;
-  password: string;
+  googleId: string;
+  facebookId: string;
 }
 export interface PayloadToken {
   id: string;
@@ -21,7 +22,7 @@ export interface PayloadToken {
 export interface IRequest extends Request {
   users: IUser;
   info: { message: string };
-  user: User;
+  user: IUserSocial;
   file: Express.Multer.File;
   files: { [fieldname: string]: Express.Multer.File[] };
 }

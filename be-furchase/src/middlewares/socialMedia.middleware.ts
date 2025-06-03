@@ -1,13 +1,13 @@
 import { User } from ".prisma/client";
 import { Request, NextFunction, Response } from "express";
 import passport from "passport";
-import { IRequest } from "../utils/interface";
+import { IRequest, IUserSocial } from "../utils/interface";
 
 export const authGoogle = (req: Request, res: Response, next: NextFunction) => {
   passport.authenticate(
     "google",
     { session: false },
-    (err: any, user: User, info: { message: string } | undefined) => {
+    (err: any, user: IUserSocial, info: { message: string } | undefined) => {
       const request = req as IRequest;
 
       if (err || !user) {
@@ -29,7 +29,7 @@ export const authFacebook = (
   passport.authenticate(
     "facebook",
     { session: false },
-    (err: any, user: User, info: { message: string } | undefined) => {
+    (err: any, user: IUserSocial, info: { message: string } | undefined) => {
       const request = req as IRequest;
 
       if (err || !user) {

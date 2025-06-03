@@ -6,6 +6,7 @@ import jwt from "jsonwebtoken";
 import { appError } from "../utils/response";
 import prisma from "../utils/prisma";
 import { authLogger } from "../utils/logger";
+import { User } from ".prisma/client";
 
 export const authProtected = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
@@ -32,15 +33,16 @@ export const authProtected = asyncHandler(
     const tokenDecoded = jwt.verify(token, secret) as PayloadToken;
 
     if (typeof tokenDecoded !== "string") {
-      const userData = tokenDecoded as IUser;
+      const userData = tokenDecoded as PayloadToken;
       const users = await prisma.user.findUnique({
         where: { id: userData.id },
         include: {
           profiles: true,
         },
       });
-
+      console.log("user from DB:", users);
       if (!users) {
+        console.log("User ID from token not found:", userData.id);
         authLogger.warn("user not found, please login first");
         throw new appError("user not found, please login first", 404);
       }
@@ -49,6 +51,14 @@ export const authProtected = asyncHandler(
         email: users.email,
         role: users.role,
         slug: users.slug,
+      };
+      requests.user = {
+        id: users.id,
+        email: users.email,
+        role: users.role,
+        slug: users.slug,
+        facebookId: users.facebookId ?? "",
+        googleId: users.googleId ?? "",
       };
     }
     next();

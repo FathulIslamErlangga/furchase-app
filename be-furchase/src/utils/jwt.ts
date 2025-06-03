@@ -4,7 +4,7 @@ import { appError } from "./response";
 import "dotenv/config";
 import { User } from ".prisma/client";
 import { Response } from "express";
-import { IUser, IUserGoogle } from "./interface";
+import { IUser, IUserSocial } from "./interface";
 
 export const signToken = (id: string) => {
   if (!id) {
@@ -47,7 +47,7 @@ export const createToken = (
     token,
   });
 };
-export const createTokenGoogle = (user: User) => {
+export const createTokenGoogle = (user: IUserSocial) => {
   const token = signToken(user.id);
   return token;
 };

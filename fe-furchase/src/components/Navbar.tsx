@@ -7,6 +7,7 @@ import NavbarSearch from "./elements/navbar/NavbarSearch";
 import NavbarAction from "./elements/navbar/NavbarAction";
 import NavbarAuth from "./elements/navbar/NavbarAuth";
 import { useGlobal } from "./contexts/GlobalContexts";
+import { useRouter } from "next/navigation";
 
 const Navbar = () => {
   const { auth } = useGlobal();
@@ -14,9 +15,11 @@ const Navbar = () => {
   const [menuProfile, setProfile] = useState(false);
   const handleMenuProfile = () => setProfile((prev) => !prev);
   const mouseLeaveProfile = () => setProfile(false);
+  const router = useRouter()
   const handleLogout = async () => {
     try {
       await auth.logout();
+      router.push("/")
     } catch (error) {
       console.log("user logout: ", error);
     }

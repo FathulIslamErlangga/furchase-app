@@ -19,7 +19,7 @@ const DropDownProfile = (props: Props) => {
         <div className="line" />
         <ul className="items-dropdown">
           <li>
-            <Link href="#">Profile</Link>
+            <Link href={`/profile/${props.user?.slug}`}>Profile</Link>
           </li>
           <li>
             <Link href="">Delivery</Link>

@@ -17,7 +17,10 @@ const resizeImage = async (filePath: string): Promise<string> => {
   const resizePath = path.join("public/uploads", `${Date.now()}.webp`);
 
   await sharp(filePath)
-    .resize(800, 800, { fit: "inside" })
+    .resize(800, 800, {
+      fit: "cover",
+      position: "center",
+    })
     .toFormat("webp")
     .toFile(resizePath);
 
