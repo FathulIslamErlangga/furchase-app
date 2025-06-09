@@ -113,10 +113,11 @@ const LoginPage = () => {
                 <div className="form">
                   <label htmlFor="">Email</label>
                   <Image
-                    src="/assets/images/mail.png"
+                    src="/assets/images/email.png"
+                    alt="login bg"
                     width={20}
                     height={20}
-                    alt="login bg"
+                    className="absolute right-64 bottom-1 "
                   />
                   <Field type="text" name="email" placeholder="Email" />
                   <ErrorMessage
@@ -136,6 +137,7 @@ const LoginPage = () => {
                       }`}
                       width={20}
                       height={20}
+                      className="absolute right-64 bottom-1 "
                       alt="login bg"
                     />
                   </button>

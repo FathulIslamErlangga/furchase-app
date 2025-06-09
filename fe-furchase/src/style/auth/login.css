@@ -17,9 +17,7 @@
   .login-page .page-container .content-login .form-input div.form {
     @apply pt-10 relative;
   }
-  .login-page .page-container .content-login .form-input div.form img {
-    @apply absolute right-64 bottom-1;
-  }
+ 
 
   .login-page .page-container .content-login .form-input div.form input {
     @apply focus:outline-none border-b-[3px] border-oranges-primary block pt-4 w-[50%] h-full;

@@ -62,7 +62,7 @@ export class addressService {
         city,
         province,
         label,
-        postalCode: parseInt(postalCode),
+        postalCode: postalCode ? parseInt(postalCode) : null,
       },
     });
   }
@@ -88,6 +88,15 @@ export class addressService {
       addressLogger.warn("address not found, please create address first");
       throw new appError("address not found, please create address first", 404);
     }
+    await prisma.address.updateMany({
+      where: {
+        profileId: users.profiles?.id,
+        NOT: { id: addressId },
+      },
+      data: {
+        isDefault: false,
+      },
+    });
     return await prisma.address.update({
       where: { id: existingAddress.id },
       data: {
@@ -121,5 +130,48 @@ export class addressService {
     return await prisma.address.delete({
       where: { id: existingAddress.id },
     });
+  }
+
+  async getAddressService(req: Request) {
+    const { slug } = req.params;
+
+    const users = await prisma.user.findUnique({
+      where: { slug },
+      include: {
+        profiles: {
+          include: {
+            addresses: true,
+          },
+        },
+      },
+    });
+    if (!users) {
+      addressLogger.warn("user not found, please login first");
+      throw new appError("user not found, please login first", 404);
+    }
+
+    const getData = {
+      id: users.id,
+      email: users.email,
+      slug: users.slug,
+      role: users.role,
+      profiles: {
+        id: users.profiles?.id,
+        firstName: users.profiles?.firstName,
+        lastName: users.profiles?.lastName,
+        phone: users.profiles?.phone,
+        addresses: users.profiles?.addresses.map((address) => ({
+          id: address.id,
+          address: address.address,
+          city: address.city,
+          postalCode: address.postalCode,
+          label: address.label,
+          province: address.province,
+          isDefault: address.isDefault,
+        })),
+      },
+    };
+
+    return getData;
   }
 }

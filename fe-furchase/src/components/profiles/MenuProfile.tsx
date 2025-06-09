@@ -1,8 +1,12 @@
 import React from "react";
 
 type Props = {
-  setMenu: React.Dispatch<React.SetStateAction<"bio" | "address" | "password">>;
-  isMenu: "bio" | "address" | "password";
+  setMenu: React.Dispatch<
+    React.SetStateAction<
+      "bio" | "address" | "password" | "adding" | "updating" | "view"
+    >
+  >;
+  isMenu: "bio" | "address" | "password" | "adding" | "updating" | "view";
 };
 
 const MenuProfile = (props: Props) => {
@@ -26,7 +30,10 @@ const MenuProfile = (props: Props) => {
         </li>
         <li
           className={`${
-            props.isMenu === "address"
+            props.isMenu === "address" ||
+            props.isMenu === "adding" ||
+            props.isMenu === "updating" ||
+            props.isMenu === "view"
               ? "border-2  border-oranges-primary bg-oranges-primary rounded-md mt-5 text-lg font-semibold "
               : "border-2 border-transparent hover:border-oranges-primary hover:bg-oranges-primary hover:rounded-md mt-5 text-lg font-semibold transition-all duration-300 ease-in-out cursor-pointer"
           }`}

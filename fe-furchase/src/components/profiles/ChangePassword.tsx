@@ -35,7 +35,7 @@ const ChangePassword = (props: resetPasswordProps) => {
                 <ErrorMessage
                   name="oldPassword"
                   component="div"
-                  className="text-red-500 text-sm absolute -bottom-5"
+                  className="text-red-500 text-sm absolute -bottom-2"
                 />
               </div>
               <div className="py-5 relative">
@@ -49,7 +49,7 @@ const ChangePassword = (props: resetPasswordProps) => {
                 <ErrorMessage
                   name="newPassword"
                   component="div"
-                  className="text-red-500 text-sm absolute -bottom-5"
+                  className="text-red-500 text-sm absolute -bottom-2"
                 />
               </div>
               <div className="bg-oranges-primary border-2 border-oranges-primary  mt-5 w-[50%] mx-auto rounded-md">

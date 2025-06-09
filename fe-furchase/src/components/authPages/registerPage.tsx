@@ -146,7 +146,7 @@ const RegisterPage = () => {
                     <label htmlFor="email">Email</label>
                     <button>
                       <Image
-                        src="/assets/images/mail.png"
+                        src="/assets/images/email.png"
                         alt=""
                         height={18}
                         width={18}

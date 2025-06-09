@@ -1,4 +1,5 @@
 import { useGlobal } from "@/components/contexts/GlobalContexts";
+import { getData } from "@/services/addresses.services";
 import { getDataUser } from "@/services/auth.services";
 import { DataProfile, ResetPassword } from "@/utils/interfaces/customInterface";
 import { deleteCookie, getCookie } from "cookies-next";
@@ -11,7 +12,9 @@ export const useProfileComponent = () => {
   const [open, setOpen] = useState(false);
   const [update, setUpdate] = useState(false);
   const [isToast, setToast] = useState(false);
-  const [isMenu, setMenu] = useState<"bio" | "address" | "password">("bio");
+  const [isMenu, setMenu] = useState<
+    "bio" | "address" | "password" | "adding" | "updating" | "view"
+  >("bio");
   const [initialData, setInitialData] = useState<DataProfile | null>(null);
   const [formData, setFormData] = useState<DataProfile>({
     firstName: "",
@@ -125,7 +128,6 @@ export const useProfileComponent = () => {
     }
 
     await profile(form, slug as string);
-    console.log("update initial", initialData);
 
     if (token) {
       await auth.getUsers(token as string);
@@ -142,9 +144,11 @@ export const useProfileComponent = () => {
 
   const handleChangePassword = async (values: ResetPassword) => {
     try {
-      await profiles.changePassword(values, slug as string);
-      deleteCookie("jwt");
-      router.push("/login");
+      const response = await profiles.changePassword(values, slug as string);
+      if (response) {
+        deleteCookie("jwt");
+        router.push("/login");
+      }
     } catch (error) {
       console.log("change password:", error);
     }

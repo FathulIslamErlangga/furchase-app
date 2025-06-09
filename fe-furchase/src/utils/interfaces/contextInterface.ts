@@ -1,5 +1,7 @@
 import {
   ChangePasswrod,
+  DataAddress,
+  DataResponse,
   LoginData,
   ProfileResponse,
   RegisterData,
@@ -31,10 +33,23 @@ export interface profileProps {
   status: string | undefined;
   profile: (data: FormData, slug: string) => Promise<void>;
   clearProfileMessage: () => void;
-  changePassword: (data: ResetPassword, slug: string) => Promise<void>;
+  changePassword: (data: ResetPassword, slug: string) => Promise<boolean>;
+}
+
+export interface addressProps {
+  addresses: DataResponse | undefined;
+  message: string | undefined;
+  status: string | undefined;
+  clearAddressMessage: () => void;
+  CreateAddress: (data: DataAddress, slug: string) => Promise<void>;
+  getDataAddress: (slug: string) => Promise<void>;
+  updateAddress: (data: DataAddress, id: string, slug: string) => Promise<void>;
+  deleteAddress: (id: string, slug: string) => Promise<void>;
+  selectAddress: (id: string, slug: string) => Promise<void>;
 }
 
 export interface globalProps {
   auth: authProps;
   profiles: profileProps;
+  address: addressProps;
 }

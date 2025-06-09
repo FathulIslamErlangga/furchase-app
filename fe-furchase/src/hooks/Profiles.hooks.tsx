@@ -39,11 +39,13 @@ export const profileHooks = (): profileProps => {
       const response = await ChangePasswordData(data, slug);
       setChange(response);
       setMessage(response.message);
+      return true;
     } catch (error: any) {
       if (error.response && error.response.data) {
         setStatus(error.response.data.status);
         setMessage(error.response.data.message);
       }
+      return false;
     }
   };
   return {
